@@ -22,6 +22,7 @@ export default function Editor() {
         if (res.data && res.data.length > 0) {
           setContent(res.data[0].content || '');
         }
+
       } catch (err) {
         console.error("Failed to load sessions");
       } finally {
@@ -37,6 +38,7 @@ export default function Editor() {
     try {
       await api.post('/sessions', { content });
       setStatus('Saved');
+      
     } catch (err) {
       setStatus('Save Failed');
     }

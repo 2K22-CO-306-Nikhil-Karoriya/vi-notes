@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Register User
 router.post('/register', async (req, res) => {
   const { email, password } = req.body;
 
@@ -21,18 +20,12 @@ router.post('/register', async (req, res) => {
 
     await user.save();
 
-    const payload = { user: { id: user.id } };
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
-      if (err) throw err;
-      res.json({ token, user: { id: user.id, email: user.email } });
-    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 });
 
-// Login User
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -48,10 +41,12 @@ router.post('/login', async (req, res) => {
     }
 
     const payload = { user: { id: user.id } };
+    
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
       if (err) throw err;
       res.json({ token, user: { id: user.id, email: user.email } });
     });
+
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
